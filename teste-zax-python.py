@@ -130,7 +130,7 @@ def adicionar_objetos() -> tuple[list, list]:
 def distribuir_pedidos() -> None:
     """
     Enquanto ainda houverem pedidos, uma loja aleatória entrega o próximo
-    pedido da fila a um motoboy aleatório (motoboys com exclusividades, sempre
+    pedido da fila a um motoboy aleatório (motoboys com exclusividades sempre
     pegam o primeiro pedido das(s) loja(s) em que tem prioridade(s)).
     """
     prioridades = [(motoboy, motoboy.exclusivas) for motoboy in motoboys]
@@ -139,13 +139,13 @@ def distribuir_pedidos() -> None:
         for loja in prioridade[1]:
             loja.entregar_pedido(prioridade[0])
 
-    while len(lojas) != 0:
+    while len(lojas) > 0:
         loja = random.choice(lojas)
         motoboy = random.choice(motoboys)
         loja.entregar_pedido(motoboy)
 
 
-def obter_info_motoboy(n) -> None:
+def obter_info_motoboy(n: int) -> None:
     """
     Procura um motoboy, dentre todos, de acordo com seu atributo id_, e imprime
     suas informações caso ele exista.
@@ -166,12 +166,16 @@ def obter_info_motoboy(n) -> None:
 if __name__ == '__main__':
     lojas, motoboys = adicionar_objetos()
     distribuir_pedidos()
+    comando = 'Digite o número do motoboy a ser verificado (0 para sair): '
 
     while True:
-        texto = 'Digite o número do motoboy a ser verificado (0 para sair): '
-        n = int(input(texto))
+        try:
+            n = int(input(comando))
 
-        if n == 0:
-            break
-        else:
-            obter_info_motoboy(n)
+            if n == 0:
+                break
+            else:
+                obter_info_motoboy(n)
+
+        except ValueError:
+            print('Tipo de dado inválido.')
